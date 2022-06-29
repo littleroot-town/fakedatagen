@@ -1,0 +1,20 @@
+{
+  "seed": 100,
+  "fix": 3,
+  "range": {"min": -1, "max": 2},
+  "number": 10000,
+  "para": [
+    {
+      "name": "p1",
+      "type": "float"
+    },
+    {
+      "name": "p2",
+      "type": "float"
+    },
+    {
+      "name": "p3",
+      "type": "bool"
+    }
+  ]
+}
