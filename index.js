@@ -1,6 +1,7 @@
 const random = require('./random')
 const fs = require('fs')
 const path = require('path')
+const func = require('./func')
 
 const { connected } = require('process')
 const { get } = require('http')
@@ -38,31 +39,18 @@ function getText(confPath, savePath){
   let min = conf.range.min ? conf.range.min : -1
   let max = conf.range.max ? conf.range.max : 1
 
+  //采样函数
+  let funcUse = func[conf.function] ? func[conf.function] :Math.sin
+  
   //生成序列
-function seriesGen_bk(type='float'){
-  let series=[]
-  if(type=='float'){
-    for(let i=0;i<totalNum;++i){
-      series.push(random.random(min, max).toFixed(fix))
-    }
-  }else{
-    for(let i=0;i<totalNum;++i){
-      series.push(Math.floor(random.random(0,2)))
-    }
-  }
-  return series
-}
-
 function seriesGen(type='float'){
   let series=[]
   if(type=='float'){
-    let tmp=min
-    let sign = 1
+    let x=0
     for(let i=0;i<totalNum;++i){
-      if(tmp<min) sign=1
-      else if(tmp>max) sign=-1
-      tmp = tmp + sign * random.random(0, (max-min)/20)
-      series.push((tmp).toFixed(fix))
+      x += 0.01
+      let tmp = funcUse(x)
+      series.push((tmp>0 ? tmp*max : -tmp*min).toFixed(fix))
     }
   }else{
     let sign=1
