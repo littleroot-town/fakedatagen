@@ -40,23 +40,24 @@ function getText(confPath, savePath){
   let max = conf.range.max ? conf.range.max : 1
 
   //采样函数
-  let funcUse = func[conf.function] ? func[conf.function] :Math.sin
+  let funcUse = func[conf.function] ? func[conf.function] : Math.sin
   
   //生成序列
 function seriesGen(type='float'){
   let series=[]
-  if(type=='float'){
+  if(type=='bool'){
+    let sign=0
+    let flipprob= conf.flipprob ? conf.flipprob : 0.01
+    for(let i=0;i<totalNum;++i){
+      sign = random.random(0,1) < flipprob ? (sign == 0 ? 1 :0) : sign
+      series.push(sign)
+    }
+  }else{
     let x=0
     for(let i=0;i<totalNum;++i){
       x += 0.01
       let tmp = funcUse(x)
       series.push((tmp>0 ? tmp*max : -tmp*min).toFixed(fix))
-    }
-  }else{
-    let sign=1
-    for(let i=0;i<totalNum;++i){
-      sign = random.random(0,1)<0.9 ? sign : (sign == 0 ? 1 :0)
-      series.push(sign)
     }
   }
   return series
@@ -65,7 +66,7 @@ function seriesGen(type='float'){
   //获取样本名称
   for(let i in conf.para){
     names.push(conf.para[i].name) 
-    nums.push(conf.para[i].type == 'float' ? seriesGen('float') : seriesGen('bool'))
+    nums.push(seriesGen(conf.para[i].type))
   }
 
   str = names.join(' ') + '\n'

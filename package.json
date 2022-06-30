@@ -1,6 +1,6 @@
 {
   "name": "fakedatagen",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "根据配置文件生成数据",
   "main": "index.js",
   "scripts": {

@@ -1,6 +1,6 @@
 module.exports = {
-  "sin": Math.sin,
-  "cos": Math.cos,
+  "sin": (x) => (Math.sin(x)+1),
+  "cos": (x) => (Math.cos(x)+1),
   "折线": (x) => {
     let y=0
     let tmp=x%4
@@ -14,8 +14,9 @@ module.exports = {
     else{
       y=-(2-(x-2)%4)
     }
-    return y
+    return y+1
+  },
+  "多项式": (x) => {
+    return 0.5*(3*Math.sin(x)-2*Math.cos(x)+2*x-0.3*Math.pow(x,2)+50)
   }
 }
-
-// (y1+y)/2 =1
