@@ -16,7 +16,7 @@ module.exports = {
     }
     return y+1
   },
-  "多项式": (x) => {
-    return 0.5*(3*Math.sin(x)-2*Math.cos(x)+2*x-0.3*Math.pow(x,2)+50)
+  "多项式": (x, para=[0.5, 50, 3, -2, 2, -0.3]) => {
+    return para[0]*(para[2]*Math.sin(x)+para[3]*Math.cos(x)+para[4]*x+para[5]*Math.pow(x,2)+para[1])
   }
 }

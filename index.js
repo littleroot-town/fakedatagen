@@ -35,15 +35,14 @@ function getText(confPath, savePath){
   //设置随机数小数点位数
   let fix = conf.fix ? conf.fix : 6
 
-  //浮点数范围
-  let min = conf.range.min ? conf.range.min : -1
-  let max = conf.range.max ? conf.range.max : 1
+  //步幅度
+  let step = conf.step ? conf.step : 0.01
 
   //采样函数
   let funcUse = func[conf.function] ? func[conf.function] : Math.sin
   
   //生成序列
-function seriesGen(type='float'){
+function seriesGen(type='float', fun={}){
   let series=[]
   if(type=='bool'){
     let sign=0
@@ -54,10 +53,11 @@ function seriesGen(type='float'){
     }
   }else{
     let x=0
+    funcUse = fun.type ? func[fun.type] : funcUse
+    let para = fun.para
     for(let i=0;i<totalNum;++i){
-      x += 0.01
-      let tmp = funcUse(x)
-      series.push((tmp>0 ? tmp*max : -tmp*min).toFixed(fix))
+      x += step
+      series.push(funcUse(x, para))
     }
   }
   return series
@@ -66,7 +66,7 @@ function seriesGen(type='float'){
   //获取样本名称
   for(let i in conf.para){
     names.push(conf.para[i].name) 
-    nums.push(seriesGen(conf.para[i].type))
+    nums.push(seriesGen(conf.para[i].type, conf.para[i].function))
   }
 
   str = names.join(' ') + '\n'
