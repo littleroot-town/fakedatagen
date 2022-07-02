@@ -1,11 +1,14 @@
 {
   "name": "fakedatagen",
-  "version": "1.0.7",
+  "version": "1.1.2",
   "description": "根据配置文件生成数据",
   "main": "index.js",
   "scripts": {
     "run": "node index.js",
     "test": "node bin/cli.js"
+  },
+  "bin": {
+    "fakedatagen": "bin/bin.js"
   },
   "author": "little",
   "license": "ISC",
