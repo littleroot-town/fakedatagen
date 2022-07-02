@@ -1,7 +1,7 @@
-const random = require('./random')
+const random = require('./lib/random')
 const fs = require('fs')
 const path = require('path')
-const func = require('./func')
+const funcations = require('./lib/funcations')
 
 const { connected } = require('process')
 const { get } = require('http')
@@ -24,7 +24,7 @@ function transpose(arr){
 function getText(confPath, savePath){
   const conf = require(confPath)
 
-    //样本数量
+  //样本数量
   let totalNum = conf.number ? conf.number : 100
   //样本名称
   let names = []
@@ -33,16 +33,10 @@ function getText(confPath, savePath){
   //设置随机数种子
   random.setSeed(conf.seed ? conf.seed : 0)
   //设置随机数小数点位数
-  let fix = conf.fix ? conf.fix : 6
-
-  //步幅度
-  let step = conf.step ? conf.step : 0.01
-
-  //采样函数
-  let funcUse = func[conf.function] ? func[conf.function] : Math.sin
+  let fix = conf.fix ? conf.fix : 4
   
   //生成序列
-function seriesGen(type='float', fun={}){
+function seriesGen(type, func={}){
   let series=[]
   if(type=='bool'){
     let sign=0
@@ -53,11 +47,16 @@ function seriesGen(type='float', fun={}){
     }
   }else{
     let x=0
-    funcUse = fun.type ? func[fun.type] : funcUse
-    let para = fun.para
+    let step=0.01
+    let funcUse = funcations[func.type]
+    let para = func.para
+    if(func.range){
+      x=func.range[0]
+      step=(func.range[1]-x)/totalNum
+    }
     for(let i=0;i<totalNum;++i){
       x += step
-      series.push(funcUse(x, para))
+      series.push(funcUse(x, para).toFixed(fix))
     }
   }
   return series
