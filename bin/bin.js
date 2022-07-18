@@ -27,7 +27,7 @@ DESCRIPTION
 OPTIONS
   -h  帮助信息
   -i  输入文件名, 缺省时默认为config.json
-  -i  输出文件名, 缺省时默认为result.txt
+  -o  输出文件名, 缺省时默认为result.txt
 `
 
 if(options.h){
@@ -49,7 +49,7 @@ try{
 
   //question异步处理
   rl.question('是否生成默认配置文件，并生成数据(y/n)? ', (answer) => {
-    if(answer.trim().toLowerCase() != 'y' && answer.trim().toLowerCase != 'yes'){
+    if(answer.trim().toLowerCase() != 'y' && answer.trim().toLowerCase != 'yes' && answer.trim()!=''){
       rl.close()
       return
     }
